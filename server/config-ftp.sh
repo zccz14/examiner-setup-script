@@ -28,6 +28,9 @@ if [ $? -gt 0 ]; then
     echo '/bin/false' >> /etc/shells
 fi
 
+# Clear user list
+rm -f ../run/ftp_userlist
+
 # Process each register entry
 for item in `cat ../run/register/tester-info.csv`; do
    name=`echo $item | cut -d, -f1`
@@ -46,11 +49,30 @@ for item in `cat ../run/register/tester-info.csv`; do
    userdel -f $user_name
    useradd -d `realpath ../run` -s '/bin/false' $user_name
    quotatool -u $user_name -i -q2 -l2 -b -q10 -l10 /
+   echo $user_name >> ../run/ftp_userlist
 done
 
 # Startup FTP server
+[ -e /etc/vsftpd.conf ] || cp /etc/vsftpd.conf /etc/vsftpd.conf.backup
+cat > /etc/vsftpd.conf << FTP_EOF
+listen=NO
+anonymous_enable=NO
+local_enable=YES
+# Default umask for local users is 077. You may wish to change this to 022,
+# if your users expect that (022 is used by most other ftpd's)
+#local_umask=022
+use_localtime=YES
+connect_from_port_20=YES
+idle_session_timeout=600
+data_connection_timeout=120
+ftpd_banner=Welcome to blah FTP service.
+chroot_local_user=YES
+write_enable=YES
+user_sub_token=$USER
+local_root=`realpath ../run/answer`/$USER
+userlist_enable=YES
+userlist_file=`realpath ../run/ftp_userlist`
+userlist_deny=NO
+FTP_EOF
 
-
-
-
-
+service ftpd reload

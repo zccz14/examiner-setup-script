@@ -7,5 +7,6 @@ sudo apt-get -qqy dist-upgrade
 # install packages
 sudo apt-get -qqy install \
 	bind9 bind9utils \
-	quotatool\
+	quotatool \
+	vsftpd \
 	apache2

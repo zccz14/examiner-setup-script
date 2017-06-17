@@ -8,5 +8,5 @@ echo connecting to ${CLI_SSH_HOST} for account registration
 # configure server ssh public key
 mkdir -p ~/.ssh/
 ssh-keygen -R ${CLI_SSH_HOST} 
-ssh-keyscen -H ${CLI_SSH_HOST} >> ~/.ssh/known_hosts
+ssh-keyscan -H ${CLI_SSH_HOST} >> ~/.ssh/known_hosts
 
