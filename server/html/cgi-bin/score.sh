@@ -29,6 +29,7 @@ score=""
 error_msg=""
 
 if [ $REQUEST_METHOD -eq 'POST' ]; then
+  # read post content from standard input
   read POST_STRING
   addr=REMOTE_ADDR
 fi
