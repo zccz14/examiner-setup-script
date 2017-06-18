@@ -56,7 +56,8 @@ function uploadFile() {
 		[7] )
 			echo FTP server is not open currently, please wait for a while ;;
 		[67] )
-			echo Permission error, maybe your have used up file quota ;;
+			echo Permission error, maybe your have used up file quota \
+			    or the service is unavailable currently ;;
 	esac
 }
 
