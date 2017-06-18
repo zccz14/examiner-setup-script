@@ -23,5 +23,5 @@ if [ $? -gt 0 ]; then
     echo `realpath ./register-main.sh` >> /etc/shells
 fi
 useradd -d `realpath ../run/register` -s `realpath ./register-main.sh` student
-echo student:student | sudo chpasswd
+echo student:student | chpasswd
 chown student ../run/register
