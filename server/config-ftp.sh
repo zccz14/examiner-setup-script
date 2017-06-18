@@ -1,10 +1,11 @@
-#!/use/bin/env bash
+#!/usr/bin/env bash
 
 # Create tester group 
 groupadd -f tester
 
 # Check disk quota (using quotatool)
-if [ `grep '^[^#]' /etc/fstab | awk '{if($2=="/")print $4}' | grep -q quota` -gt 0 ]; then 
+grep '^[^#]' /etc/fstab | awk '{if($2=="/")print $4}' | grep -q quota
+if [ $? -gt 0 ]; then 
     # no quota enabled for root partition
     # add quota option
     sed -i.backup -e \
@@ -33,29 +34,32 @@ rm -f ../run/ftp_userlist
 
 # Process each register entry
 for item in `cat ../run/register/tester-info.csv`; do
-   name=`echo $item | cut -d, -f1`
-   pass=`echo $item | cut -d, -f2 | base64 -d`
-   addr=`echo $item | cut -d, -f3`
+    name=`echo $item | cut -d, -f1`
+    pass=`echo $item | cut -d, -f2 | base64 -d`
+    addr=`echo $item | cut -d, -f3`
 
-   # User Name
-   user_name=stu$name
+    # User Name
+    user_name=stu$name
 
-   # Home directory
-   mkdir -p ../run/answer/$user_name
-   user_home=`realpath ../run/answer/$user_name`
-   chmod 662 user_home
-   touch user_home/.hushlogin
+    # Home directory
+    mkdir -p ../run/answer/$user_name
+    user_home=`realpath ../run/answer/$user_name`
+    chmod 755 $user_home
+    touch ${user_home}/.hushlogin
 
-   userdel -f $user_name
-   useradd -d `realpath ../run` -s '/bin/false' $user_name
-   quotatool -u $user_name -i -q2 -l2 -b -q10 -l10 /
-   echo $user_name >> ../run/ftp_userlist
+    userdel -f $user_name
+    useradd -g tester -d $user_home -s '/bin/false' $user_name
+    echo $user_name:$pass | chpasswd
+    chown $user_name:tester "$user_home"
+    # quota set to 3 with an extra one for home folder inode
+    quotatool -u $user_name -i -q3 -l3 -b -q20 -l20 /
+    echo $user_name >> ../run/ftp_userlist
 done
 
 # Startup FTP server
-[ -e /etc/vsftpd.conf ] || cp /etc/vsftpd.conf /etc/vsftpd.conf.backup
+[ -e /etc/vsftpd.conf.backup ] || cp /etc/vsftpd.conf /etc/vsftpd.conf.backup
 cat > /etc/vsftpd.conf << FTP_EOF
-listen=NO
+listen=YES
 anonymous_enable=NO
 local_enable=YES
 # Default umask for local users is 077. You may wish to change this to 022,
@@ -68,11 +72,12 @@ data_connection_timeout=120
 ftpd_banner=Welcome to blah FTP service.
 chroot_local_user=YES
 write_enable=YES
-user_sub_token=$USER
-local_root=`realpath ../run/answer`/$USER
+user_sub_token=\$USER
+local_root=`realpath ../run/answer`/\$USER
+allow_writeable_chroot=YES
 userlist_enable=YES
 userlist_file=`realpath ../run/ftp_userlist`
 userlist_deny=NO
 FTP_EOF
 
-service ftpd reload
+sudo service vsftpd restart
