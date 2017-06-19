@@ -37,6 +37,7 @@ if [[ $REQUEST_METHOD = 'POST' ]]; then
     user=`echo $POST_STRING | sed 's/&/\n/g' | sed 's/=/ /' | awk '/user/{print $2}'`
     pass=`echo $POST_STRING | sed 's/&/\n/g' | sed 's/=/ /' | awk '/pass/{print $2}'`
     encPass=`echo $pass | base64`
+    # require the same username, password, as well as login IP
     score=`cat ans.csv | grep -F "$user,$encPass,$REMOTE_ADDR," | cut -d , -f4`
     if [[ "$score" = "" ]]; then
       error_msg="username, password or IP address mismatch"

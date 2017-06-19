@@ -3,7 +3,6 @@
 if [[ $(id -u) -ne 0 ]]; then echo "Please run setup script as root (sudo)" ; exit 1 ; fi
 cd "$( dirname "${BASH_SOURCE[0]}" )"
 
-cd ../client
+cd ../server
 
-./config-dns.sh
-
+./register-down.sh

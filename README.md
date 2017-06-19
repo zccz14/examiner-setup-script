@@ -20,8 +20,8 @@ installation of Ubuntu 16.04.2 LTS (Unity DE).
 All server related configuration entries are set in files matching
  `./config/server-*`. 
 
-* Setup Scripts
-Setup scripts are used for installation and configurations of various 
+* Server Scripts
+Server scripts are used for installation and configurations of various 
 services required to host an examination.
 
 * Examination Scheduling Scripts
@@ -31,13 +31,47 @@ services required to host an examination.
 All client related configuration entries are set in files matching
  `./config/client-*`. 
 
- * Setup Scripts
-Setup scripts are used for installation and configurations of various 
+ * Client Scripts
+Client scripts are used for installation and configurations of various 
 services required to connect to examination server and have an 
 examination. This set of scripts should be executed after setting up
-the examination server.
+the examination server been setup.
 
  * Examination Scripts
 
  ## Setup Flow
 
+```
+# server
+sudo ./bin/server-setup.sh 
+
+# client (after server setup)
+sudo ./bin/client-setup.sh
+```
+
+## Server Scripts
+```
+# start register service
+sudo ./bin/server-register-up.sh
+
+# stop register service
+sudo ./bin/server-register-down.sh
+
+# schedule an exam process and start it at once
+sudo ./bin/server-exam.sh
+```
+
+## Client Scripts 
+```
+# Register
+./bin/client-register.sh
+
+# Answer questions and upload answer
+./bin/client-exam.sh
+
+# Check score (launch browser)
+./bin/client-check-score.sh
+```
+
+---
+Under MIT License. Copyright © 2017 Jack Q

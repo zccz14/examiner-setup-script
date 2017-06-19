@@ -3,4 +3,4 @@
 cd "$( dirname "${BASH_SOURCE[0]}" )"
 cd ../client
 
-./answer.sh
+./register.sh
