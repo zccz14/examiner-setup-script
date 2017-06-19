@@ -29,6 +29,15 @@ if [ $? -gt 0 ]; then
     echo '/bin/false' >> /etc/shells
 fi
 
+# Prepare access list
+grep -qF 'pam_access.so' /etc/pam.d/vsftpd
+if [ $? -gt 0 ]; then
+    [ -e /etc/pam.d/vsftpd.backup ] || cp /etc/pam.d/vsftpd /etc/pam.d/vsftpd.backup
+    echo 'account  required  pam_access.so' >> /etc/pam.d/vsftpd
+fi
+[[ -e /etc/security/access.conf.backup ]] || cp /etc/security/access.conf /etc/security/access.conf.backup
+echo > /etc/security/access.conf
+
 # Clear user list
 rm -f ../run/ftp_userlist
 
@@ -53,6 +62,8 @@ for item in `cat ../run/register/tester-info.csv`; do
     chown $user_name:tester "$user_home"
     # quota set to 3 with an extra one for home folder inode
     quotatool -u $user_name -i -q3 -l3 -b -q20 -l20 /
+    # access control
+    echo "-:$user_name:ALL EXCEPT $addr" >> /etc/security/access.conf
     echo $user_name >> ../run/ftp_userlist
 done
 
@@ -78,6 +89,7 @@ allow_writeable_chroot=YES
 userlist_enable=YES
 userlist_file=`realpath ../run/ftp_userlist`
 userlist_deny=NO
+pam_service_name=vsftpd
 FTP_EOF
 
 sudo service vsftpd restart
