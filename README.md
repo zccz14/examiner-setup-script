@@ -10,7 +10,7 @@ without modifying the default configuration. For the server of hosting
 examination, the tested platform is a fresh installation of Ubuntu 
 Server 16.04.2 LTS with update-to-date packages, while for the client 
 for student to have the examination, the tested platform is a fresh 
-installation of Ubuntu 16.04.2 LTS (Unity DE).
+installation of Ubuntu 17.04 LTS (Unity DE).
 
 ## Component
 
