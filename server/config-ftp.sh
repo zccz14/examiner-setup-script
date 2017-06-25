@@ -30,7 +30,7 @@ if [[ $? -gt 0 ]]; then
 fi
 
 # Prepare access list
-grep -qF 'pam_access.so' /etc/pam.d/vsftpd
+grep -v '^#' /etc/pam.d/vsftpd | grep -q 'account\s\+required\s\+pam_access\.so'
 if [[ $? -gt 0 ]]; then
     [ -e /etc/pam.d/vsftpd.backup ] || cp /etc/pam.d/vsftpd /etc/pam.d/vsftpd.backup
     echo 'account  required  pam_access.so' >> /etc/pam.d/vsftpd

@@ -7,7 +7,7 @@ source ../config/server-network.conf
 userdel -f student
 
 # remove register entry
-grep -qF `realpath ./register-main.sh` /etc/shells
+grep -v '^#' /etc/shells | grep -qF `realpath ./register-main.sh` 
 if [ $? -eq 0 ]; then
   grep -vF `realpath ./register-main.sh` /etc/shells > '/tmp/shells.tmp'
   cat '/tmp/shells.tmp' > /etc/shells
