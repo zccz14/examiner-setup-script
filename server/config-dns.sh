@@ -51,6 +51,7 @@ EOF
 # Check zone configuration
 named-checkzone ${SRV_DNS_ZONE} ${zoneFileName}
 
+# restart the bind9 daemon to apply the configuration
 systemctl restart bind9
 
 # Test the DNS service
@@ -66,6 +67,7 @@ function tryResolve() {
   fi	
 }
 
+# Validate the configuration
 tryResolve reg.test-examination.edu $serverInetAddr
 tryResolve ftp.test-examination.edu $serverInetAddr
 tryResolve ns.test-examination.edu $serverInetAddr

@@ -96,7 +96,9 @@ function submitAnswer(){
 function answerOverview() {
   echo 
   echo '_____________ Answer Overview _____________'
-  awk 'BEGIN{i=1}{ans[i++]=$0;}END{for(i=1;i<='$totalCount';i++) printf(" %2d: %4s %c", i, ans[i]?ans[i]:"_", i%4==0?"\n":"|");}' paper/answer
+  awk 'BEGIN{i=1}{ans[i++]=$0;}END{for(i=1;i<='$totalCount';i++)'\
+' printf(" %2d: %4s %c",i,ans[i]?ans[i]:"_",i%4==0?"\n":"|");}' \
+   paper/answer
   echo Answered: `cat paper/answer | wc -w`/$totalCount
   echo 
 }

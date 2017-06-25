@@ -49,7 +49,7 @@ where the root of this code repository locates.
 Prepare proper configuration accordingly then execute the following commands
 on server and client, respectively.
 
-```
+```bash
 # setup the server
 sudo ./bin/server-setup.sh 
 
@@ -58,7 +58,7 @@ sudo ./bin/client-setup.sh
 ```
 
 ## Server Scripts
-```
+```bash
 # start register service
 sudo ./bin/server-register-up.sh
 
@@ -70,7 +70,7 @@ sudo ./bin/server-exam.sh
 ```
 
 ## Client Scripts 
-```
+```bash
 # Register
 ./bin/client-register.sh
 
