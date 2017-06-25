@@ -19,8 +19,8 @@ chmod 662 ../run/register/tester-info.csv
 # register login shell
 grep -v '^#' /etc/shells | grep -qF `realpath ./register-main.sh` 
 if [ $? -gt 0 ]; then 
-    cp /etc/shells /etc/shells.backup
-    echo `realpath ./register-main.sh` >> /etc/shells
+  cp /etc/shells /etc/shells.backup
+  echo `realpath ./register-main.sh` >> /etc/shells
 fi
 useradd -d `realpath ../run/register` -s `realpath ./register-main.sh` student
 echo student:student | chpasswd
