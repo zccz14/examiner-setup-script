@@ -21,7 +21,7 @@ cat << EOF
       <input required type='password' name='pass' id='pass'>
       <br>
       <input type='submit' value='query' />
-      <input type='reset' value='reset' /
+      <input type='reset' value='reset' />
     </form>
 EOF
 
