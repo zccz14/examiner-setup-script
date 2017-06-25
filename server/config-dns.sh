@@ -66,7 +66,7 @@ function tryResolve() {
   fi	
 }
 
-tryResolve reg.test-examination.edu 192.168.1.105
-tryResolve ftp.test-examination.edu 192.168.1.105
-tryResolve ns.test-examination.edu 192.168.1.105
-tryResolve www.test-examination.edu 192.168.1.105
+tryResolve reg.test-examination.edu $serverInetAddr
+tryResolve ftp.test-examination.edu $serverInetAddr
+tryResolve ns.test-examination.edu $serverInetAddr
+tryResolve www.test-examination.edu $serverInetAddr
