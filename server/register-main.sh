@@ -3,7 +3,7 @@
 # client address
 studentAddress=`echo $SSH_CLIENT | awk '{ print$1 }'`
 
-if [ -e ./log.${studentAddress} ]; then
+if [[ -e ./log.${studentAddress} ]]; then
     echo student with id `cat ./log.${studentAddress}` has been registered on this machine
     exit 1
 fi

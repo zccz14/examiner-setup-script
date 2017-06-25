@@ -5,7 +5,7 @@ groupadd -f tester
 
 # Check disk quota (using quotatool)
 grep '^[^#]' /etc/fstab | awk '{if($2=="/")print $4}' | grep -q quota
-if [ $? -gt 0 ]; then 
+if [[ $? -gt 0 ]]; then 
     # no quota enabled for root partition
     # add quota option
     sed -i.backup -e \
@@ -24,14 +24,14 @@ chmod 755 ../run/answer
 
 # Prepare login shell (false) to prevent unintented remote access
 grep -qF '/etc/false' /etc/shells
-if [ $? -gt 0 ]; then 
+if [[ $? -gt 0 ]]; then 
     [ -e /etc/shells.backup ] || cp /etc/shells /etc/shells.backup
     echo '/bin/false' >> /etc/shells
 fi
 
 # Prepare access list
 grep -qF 'pam_access.so' /etc/pam.d/vsftpd
-if [ $? -gt 0 ]; then
+if [[ $? -gt 0 ]]; then
     [ -e /etc/pam.d/vsftpd.backup ] || cp /etc/pam.d/vsftpd /etc/pam.d/vsftpd.backup
     echo 'account  required  pam_access.so' >> /etc/pam.d/vsftpd
 fi
@@ -68,7 +68,7 @@ for item in `cat ../run/register/tester-info.csv`; do
 done
 
 # Startup FTP server
-[ -e /etc/vsftpd.conf.backup ] || cp /etc/vsftpd.conf /etc/vsftpd.conf.backup
+[[ -e /etc/vsftpd.conf.backup ]] || cp /etc/vsftpd.conf /etc/vsftpd.conf.backup
 cat > /etc/vsftpd.conf << FTP_EOF
 listen=YES
 anonymous_enable=NO

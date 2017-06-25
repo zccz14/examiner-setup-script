@@ -57,7 +57,7 @@ systemctl restart bind9
 function tryResolve() {
 	# map parameters
 	addr=$1; dns=$2
-	if [ `dig @${dns} ${addr} +short | wc -l` -gt 0 ]; then 
+	if [[ `dig @${dns} ${addr} +short | wc -l` -gt 0 ]]; then 
 		echo resvole ${addr} as `dig @${dns} ${addr} +short`
 		return 0
 	else 
