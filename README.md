@@ -8,7 +8,7 @@ and client in LAN.
 The script are prepared to use on a *bare* Ubuntu 16.04 LTS installation
 without modifying the default configuration. For the server of hosting 
 examination, the tested platform is a fresh installation of Ubuntu 
-Server 16.04.2 LTS with update-to-date packages, while for the client 
+Server 16.04.2 LTS (AMD64) with update-to-date packages, while for the client 
 for student to have the examination, the tested platform is a fresh 
 installation of Ubuntu 17.04 LTS (Unity DE).
 
@@ -39,18 +39,26 @@ the examination server been setup.
 
  * Examination Scripts
 
- ## Setup Flow
+## Execution Instruction
 
-```
-# server
+The following scripts assuming that the current working directory is 
+where the root of this code repository locates.
+
+## Setup
+
+Prepare proper configuration accordingly then execute the following commands
+on server and client, respectively.
+
+```bash
+# setup the server
 sudo ./bin/server-setup.sh 
 
-# client (after server setup)
+# setup the client (after server setup)
 sudo ./bin/client-setup.sh
 ```
 
 ## Server Scripts
-```
+```bash
 # start register service
 sudo ./bin/server-register-up.sh
 
@@ -62,7 +70,7 @@ sudo ./bin/server-exam.sh
 ```
 
 ## Client Scripts 
-```
+```bash
 # Register
 ./bin/client-register.sh
 

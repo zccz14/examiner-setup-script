@@ -17,8 +17,8 @@ cp ${bindConfFile} ${bindConfFile}.backup
 echo ${bindConfFile}
 cat << EOF >> ${bindConfFile}
 zone "${SRV_DNS_ZONE}" {
-	type master;
-	file "${zoneFileName}";
+  type master;
+  file "${zoneFileName}";
 };
 EOF
 
@@ -51,22 +51,24 @@ EOF
 # Check zone configuration
 named-checkzone ${SRV_DNS_ZONE} ${zoneFileName}
 
+# restart the bind9 daemon to apply the configuration
 systemctl restart bind9
 
 # Test the DNS service
 function tryResolve() {
-	# map parameters
-	addr=$1; dns=$2
-	if [ `dig @${dns} ${addr} +short | wc -l` -gt 0 ]; then 
-		echo resvole ${addr} as `dig @${dns} ${addr} +short`
-		return 0
-	else 
-		echo cannot resolve ${addr}
-		return 1
-	fi	
+  # map parameters
+  addr=$1; dns=$2
+  if [[ `dig @${dns} ${addr} +short | wc -l` -gt 0 ]]; then 
+    echo resvole ${addr} as `dig @${dns} ${addr} +short`
+    return 0
+  else 
+    echo cannot resolve ${addr}
+    return 1
+  fi	
 }
 
-tryResolve reg.test-examination.edu 192.168.1.105
-tryResolve ftp.test-examination.edu 192.168.1.105
-tryResolve ns.test-examination.edu 192.168.1.105
-tryResolve www.test-examination.edu 192.168.1.105
+# Validate the configuration
+tryResolve reg.test-examination.edu $serverInetAddr
+tryResolve ftp.test-examination.edu $serverInetAddr
+tryResolve ns.test-examination.edu $serverInetAddr
+tryResolve www.test-examination.edu $serverInetAddr
